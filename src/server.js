@@ -1,4 +1,5 @@
 const Hapi = require("@hapi/hapi");
+const accountHandler = require("./handler");
 
 const init = async () => {
   const server = Hapi.server({
@@ -10,6 +11,29 @@ const init = async () => {
       },
     },
   });
+
+  server.route([
+    {
+      method: "GET",
+      path: "/account",
+      handler: accountHandler.getAccount,
+    },
+    {
+      method: "POST",
+      path: "/account",
+      handler: accountHandler.addAccount,
+    },
+    {
+      method: "DELETE",
+      path: "/account",
+      handler: accountHandler.deleteAccount,
+    },
+    {
+      method: "PATCH",
+      path: "/account",
+      handler: accountHandler.editAccount,
+    },
+  ]);
 
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
